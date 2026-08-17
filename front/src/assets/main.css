@@ -299,3 +299,276 @@ body { overflow: hidden; }
     font-size: 22px;
   }
 }
+
+/* =========================================================
+   Mobile compatibility patch
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  html,
+  body,
+  #app {
+    width: 100%;
+    min-height: 100%;
+  }
+
+  body {
+    min-width: 0;
+    overflow: auto;
+  }
+
+  /* 手机浏览器使用动态视口高度，避免地址栏导致页面跳动 */
+  .chat-layout {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    grid-template-columns: 56px minmax(0, 1fr);
+    overflow: hidden;
+  }
+
+  /* 左侧栏压缩 */
+  .sidebar {
+    width: 56px;
+    min-width: 56px;
+    padding: 10px 6px;
+  }
+
+  .sidebar-brand {
+    padding: 2px 0 14px;
+  }
+
+  .sidebar-brand > span {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    font-size: 17px;
+  }
+
+  .sidebar-brand div,
+  .sidebar-label,
+  .session-item strong,
+  .session-item small,
+  .account-row span,
+  .account-row button {
+    display: none;
+  }
+
+  .new-chat-button {
+    width: 42px;
+    height: 42px;
+    margin: 0 auto;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    font-size: 0;
+  }
+
+  .new-chat-button::after {
+    position: static;
+    width: auto;
+    height: auto;
+    content: '+';
+    background: none;
+    transform: none;
+    font-size: 22px;
+  }
+
+  .session-list {
+    margin: 12px 0 0;
+    padding: 0;
+  }
+
+  .session-item {
+    width: 42px;
+    height: 42px;
+    margin: 5px auto;
+    padding: 0;
+  }
+
+  .account-row {
+    margin-top: auto;
+    padding: 12px 0 0;
+    justify-content: center;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  /* 右侧聊天区域必须允许真正缩小 */
+  .conversation {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .chat-header {
+    min-height: 56px;
+    height: 56px;
+    padding: 0 12px;
+  }
+
+  .chat-header strong {
+    max-width: calc(100vw - 120px);
+    font-size: 14px;
+  }
+
+  .chat-header small {
+    font-size: 10px;
+  }
+
+  /* 聊天内容 */
+  .message-list {
+    min-width: 0;
+    padding: 16px 8px 12px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .message-group {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .bubble-row {
+    width: 100%;
+    gap: 7px;
+    margin: 10px 0;
+  }
+
+  .mini-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 10px;
+  }
+
+  .bubble {
+    min-width: 0;
+    max-width: calc(100% - 35px);
+    padding: 11px 12px;
+    border-radius: 13px;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* 防止长链接、代码等撑破手机屏幕 */
+  .bubble pre,
+  .bubble code {
+    max-width: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* 图表手机端禁止使用 280px 最小宽度 */
+  .image-grid {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .image-grid img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  /* 欢迎页 */
+  .chat-welcome {
+    margin: 55px auto;
+    padding: 0 12px;
+  }
+
+  .chat-welcome > div {
+    width: 56px;
+    height: 56px;
+    border-radius: 17px;
+    font-size: 23px;
+  }
+
+  .chat-welcome h2 {
+    margin-top: 20px;
+    font-size: 21px;
+  }
+
+  .chat-welcome p {
+    font-size: 13px;
+  }
+
+  /* 底部输入框 */
+  .chat-composer {
+    flex: none;
+    width: auto;
+    margin: 0 7px max(7px, env(safe-area-inset-bottom));
+    padding: 6px 6px 6px 10px;
+    gap: 6px;
+    border-radius: 13px;
+  }
+
+  .chat-composer textarea {
+    width: 0;
+    min-width: 0;
+    min-height: 42px;
+    max-height: 110px;
+    padding: 8px 3px;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  .chat-composer button {
+    flex: none;
+    min-width: 54px;
+    padding: 10px 11px;
+    border-radius: 10px;
+    font-size: 13px;
+  }
+
+  /* 手机端取消 hover 位移动画 */
+  .bubble-row:hover .bubble,
+  .image-grid img:hover,
+  .chat-composer:focus-within,
+  .session-item:hover,
+  .session-item.active {
+    transform: none;
+  }
+}
+
+
+/* 超窄屏，例如 iPhone SE 等 */
+@media (max-width: 390px) {
+
+  .chat-layout {
+    grid-template-columns: 50px minmax(0, 1fr);
+  }
+
+  .sidebar {
+    width: 50px;
+    min-width: 50px;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .new-chat-button,
+  .session-item {
+    width: 38px;
+  }
+
+  .bubble {
+    font-size: 13.5px;
+  }
+
+  .message-list {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+}
+
