@@ -6,13 +6,23 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     MPLCONFIGDIR=/tmp/matplotlib \
     TOKENIZERS_PARALLELISM=false
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl libgomp1 fonts-noto-cjk \
+RUN sed -i \
+    -e 's|http://deb.debian.org/debian|http://mirrors.aliyun.com/debian|g' \
+    -e 's|http://deb.debian.org/debian-security|http://mirrors.aliyun.com/debian-security|g' \
+    /etc/apt/sources.list.d/debian.sources \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        curl \
+        libgomp1 \
+        fonts-noto-cjk \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY ElectricityLLM/requirements.txt ./requirements.txt
+ENV PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/
+ENV PIP_DEFAULT_TIMEOUT=120
+
 RUN python -m pip install --upgrade pip \
     && python -m pip install -r requirements.txt
 

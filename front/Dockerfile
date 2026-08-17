@@ -2,7 +2,9 @@ FROM node:24-alpine AS build
 
 WORKDIR /build
 COPY front/package.json front/package-lock.json ./
-RUN npm ci
+
+RUN npm config set registry https://registry.npmmirror.com \
+    && npm ci
 COPY front/ ./
 RUN npm run build
 

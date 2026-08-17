@@ -1,8 +1,12 @@
 FROM maven:3.9.11-eclipse-temurin-17 AS build
 
 WORKDIR /build
+
+COPY llm-back/settings.xml /root/.m2/settings.xml
 COPY llm-back/pom.xml ./pom.xml
+
 RUN mvn -B -DskipTests dependency:go-offline
+
 COPY llm-back/src ./src
 RUN mvn -B -DskipTests package
 
