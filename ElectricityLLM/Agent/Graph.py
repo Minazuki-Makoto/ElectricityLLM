@@ -1932,26 +1932,6 @@ class agentGraph:
                 },
             )
 
-            output_path = Path(os.getenv(
-                "AGENT_OUTPUT_PATH",
-                str(PROJECT_ROOT.parent / "LLM-data" / "temps" / "output-result.json"),
-            ))
-            output_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(
-                    output_path,
-                    "a",
-                    encoding="utf-8"
-            ) as f:
-                f.write(
-                    json.dumps(
-                        result,
-                        ensure_ascii=False,
-                        indent=2,
-                        default=str
-                    )
-                )
-                f.write("\n")
-
         except Exception:
             logger.exception("智能体调用失败 耗时毫秒=%.1f", (perf_counter() - started_at) * 1000)
             raise

@@ -79,7 +79,7 @@ services:
 
   neo4j:
     <<: *common
-    image: neo4j:5.26-community
+    image: neo4j:2026.06.0
     environment:
       NEO4J_AUTH: neo4j/${NEO4J_PASSWORD}
       NEO4J_server_memory_heap_initial__size: ${NEO4J_HEAP_INITIAL:-256m}
@@ -94,7 +94,7 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "cypher-shell -u neo4j -p \"$${NEO4J_AUTH#*/}\" 'RETURN 1' >/dev/null"]
       interval: 15s
-      timeout: 8s
+      timeout: 30s
       retries: 15
       start_period: 45s
     mem_limit: 2g
