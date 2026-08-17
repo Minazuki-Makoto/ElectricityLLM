@@ -19,12 +19,13 @@ CONTENT_TYPE = "image/png"
 
 def _configure_chinese_font() -> None:
     preferred_fonts = (
-        "Microsoft YaHei",
-        "SimHei",
-        "Noto Sans CJK SC",
-        "WenQuanYi Micro Hei",
-        "SimSun",
-    )
+    "Noto Sans CJK SC",
+    "Noto Sans CJK JP",
+    "Microsoft YaHei",
+    "SimHei",
+    "WenQuanYi Micro Hei",
+    "SimSun",
+)
     installed_fonts = {
         font_manager.FontProperties(fname=path).get_name()
         for path in font_manager.findSystemFonts()
@@ -121,28 +122,86 @@ def _render_figure(
     point_count = len(x_data)
     figure_width = max(10.0, min(24.0, point_count * 1.45))
     figure_height = 7.0 if chart_type in {"bar", "plot"} else 6.0
-    fig, ax = plt.subplots(figsize=(figure_width, figure_height))
+
+    fig, ax = plt.subplots(
+        figsize=(figure_width, figure_height)
+    )
+
     try:
         if chart_type == "bar":
-            ax.bar(x_data, values, width=0.6, label=label or None)
+            bars = ax.bar(
+                x_data,
+                values,
+                width=0.6,
+                label=label or None,
+            )
+
             ax.set_xlabel("类别")
             ax.set_ylabel(label or "数值")
+
+            value_labels = [
+                f"{value:g}"
+                for value in values
+            ]
+
+            ax.bar_label(
+                bars,
+                labels=value_labels,
+                padding=3,
+                fontsize=8,
+                rotation=0,
+            )
+
+            ax.margins(y=0.12)
+
         elif chart_type == "plot":
-            ax.plot(x_data, values, marker="o", label=label or None)
+            ax.plot(
+                x_data,
+                values,
+                marker="o",
+                label=label or None,
+            )
+
             ax.set_xlabel("类别")
             ax.set_ylabel(label or "数值")
             ax.grid(True, alpha=0.3)
+
+            for x, y in zip(x_data, values):
+                ax.annotate(
+                    f"{y:g}",
+                    xy=(x, y),
+                    xytext=(0, 6),
+                    textcoords="offset points",
+                    ha="center",
+                    fontsize=8,
+                )
+
+            ax.margins(y=0.12)
+
         elif chart_type == "pie":
-            ax.pie(values, labels=[str(item) for item in x_data], autopct="%1.1f%%")
+            ax.pie(
+                values,
+                labels=[str(item) for item in x_data],
+                autopct="%1.1f%%",
+            )
             ax.axis("equal")
+
         else:
             ax.axis("off")
+
             table = ax.table(
-                cellText=[[str(x), str(value)] for x, value in zip(x_data, values)],
-                colLabels=["类别", label or "数值"],
+                cellText=[
+                    [str(x), str(value)]
+                    for x, value in zip(x_data, values)
+                ],
+                colLabels=[
+                    "类别",
+                    label or "数值",
+                ],
                 cellLoc="center",
                 loc="center",
             )
+
             table.auto_set_font_size(False)
             table.set_fontsize(10)
             table.scale(1, 1.4)
@@ -159,9 +218,12 @@ def _render_figure(
                 )
                 for item in x_data
             ]
+
             ax.set_xticks(range(point_count))
             ax.set_xticklabels(wrapped_labels)
+
             rotation = 35 if point_count >= 6 else 20
+
             plt.setp(
                 ax.get_xticklabels(),
                 rotation=rotation,
@@ -169,20 +231,32 @@ def _render_figure(
                 rotation_mode="anchor",
                 fontsize=10,
             )
+
             ax.margins(x=0.03)
 
-        ax.set_title(str(title).strip() or "数据图表")
+        ax.set_title(
+            str(title).strip() or "数据图表"
+        )
+
         if label and chart_type in {"bar", "plot"}:
             ax.legend()
+
         fig.tight_layout(pad=1.4)
 
         image = BytesIO()
-        fig.savefig(image, format="png", dpi=150, bbox_inches="tight")
+
+        fig.savefig(
+            image,
+            format="png",
+            dpi=150,
+            bbox_inches="tight",
+        )
+
         image.seek(0)
         return image
+
     finally:
         plt.close(fig)
-
 
 def plot(
     object_name: str,

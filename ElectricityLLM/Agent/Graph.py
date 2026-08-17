@@ -753,7 +753,7 @@ class agentGraph:
             for content in retrieve_data
             if isinstance(content, str) and content.strip()
         )
-        needed_second_retrieve = available_count <= 2
+        needed_second_retrieve = available_count <= 1
         reason = (
             f"首次检索仅获得{available_count}条可用资料"
             if needed_second_retrieve
