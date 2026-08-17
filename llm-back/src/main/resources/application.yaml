@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: llm-back
+
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 3MB
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:mysql}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:scms}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  data:
+    redis:
+      host: ${REDIS_HOST:redis}
+      port: ${REDIS_PORT:6379}
+      database: ${REDIS_DB:0}
+      password: ${REDIS_PASSWORD:}
+
+
+minio:
+  endpoint: ${MINIO_URL:http://127.0.0.1:9000}
+  access-key: ${MINIO_ACCESS_KEY}
+  secret-key: ${MINIO_SECRET_KEY}
+  bucket: ${MINIO_DOCUMENT_BUCKET:contracts}
+
+server:
+  port: ${SERVER_PORT:8088}
+
+rocketmq:
+  endpoints: ${ROCKETMQ_ENDPOINTS:127.0.0.1:8081}
+
+  task-topic: ${ROCKETMQ_TASK_TOPIC:llm-task-topic}
+  result-topic: ${ROCKETMQ_RESULT_TOPIC:llm-task-result-topic}
+
+  consumer-group: ${ROCKETMQ_CONSUMER_GROUP:llm-task-consumer-group}
+
+  task-tag: ${ROCKETMQ_TASK_TAG:LLM_TASK}
+
+  producer:
+    max-attempts: ${ROCKETMQ_PRODUCER_MAX_ATTEMPTS:3}
+
+  consumer:
+    max-retry-attempts: ${ROCKETMQ_CONSUMER_MAX_RETRY_ATTEMPTS:3}
+
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+flask:
+  url: ${FLASK_URL:http://127.0.0.1:5000}
+  connect-timeout-seconds: ${FLASK_CONNECT_TIMEOUT_SECONDS:10}
+  read-timeout-seconds: ${FLASK_READ_TIMEOUT_SECONDS:330}
+
+app:
+  sse:
+    timeout-millis: ${SSE_TIMEOUT_MILLIS:600000}

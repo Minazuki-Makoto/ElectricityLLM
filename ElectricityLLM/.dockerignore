@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.idea/
+.vscode/
+.env
+.env.*
+training/
+verify/
+model_download/
+document_deal/
+generate_plot_data/
+*.log

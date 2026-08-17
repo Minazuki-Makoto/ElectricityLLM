@@ -1,0 +1,56 @@
+# Secrets and local deployment configuration
+.env
+.env.*
+!.env.example
+deploy.env
+*.pem
+*.key
+*.p12
+*.jks
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Java / Node
+**/target/
+**/node_modules/
+**/dist/
+*.tsbuildinfo
+
+# IDE and operating system
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Runtime data, logs, caches and local models
+*.log
+logs/
+temp/
+tmp/
+LLM-data/Models/
+LLM-data/cache/
+LLM-data/logs/
+LLM-data/temps/
+LLM-datacache/
+deploy/data/
+deploy/logs/
+deploy/backup/
+# Local data/model assets - not part of production source repository
+LLM-data/
+LLM-datacache/
+
+# Local AI-agent instructions and temporary handoff reports
+CODEX.md
+CODEX_*.md
+**/CODEX.md
+*_HANDOFF.md
+*_REFACTOR_PLAN.md
+REFACTOR_VALIDATION.md
+PROJECT_OVERVIEW.md
+  ElectricityLLM/--recreate
